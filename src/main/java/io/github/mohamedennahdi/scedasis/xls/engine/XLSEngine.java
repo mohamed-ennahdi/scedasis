@@ -142,10 +142,10 @@ public class XLSEngine extends Engine {
 		try (Connection c = this.getConnection()) {
 			File file = new File(this.path);
 			if (!file.getParentFile().mkdirs()) {
-				XLSEngine.logger.info("{} already exists.", file.getParentFile().getAbsolutePath());
+				XLSEngine.logger.info("Folder {} already exists.", file.getParentFile().getAbsolutePath());
 			}
 			if (!file.createNewFile()) {
-				XLSEngine.logger.info("{} already exists.", file.getName());
+				XLSEngine.logger.info("File {} already exists.", file.getName());
 			}
 			out = new FileOutputStream(file);
 			XLSEngine.logger.info("Generating {}", file);
@@ -164,7 +164,7 @@ public class XLSEngine extends Engine {
 
 			CellStyle headerStyle = newHeaderStyle(font);
 
-			Map<Integer, String> colNames = this.storeColumnNames(rsmd, numberOfColumns);
+			this.storeColumnNames(rsmd, numberOfColumns);
 
 			this.newSpreadSheet(rsmd, numberOfColumns, headerStyle);
 
@@ -182,7 +182,7 @@ public class XLSEngine extends Engine {
 					cell = row.createCell(column);
 					cell.setCellStyle(style);
 					spreadsheet.setColumnWidth(column, COLUMN_WIDTH);
-					this.formatCell(colNames, column, value, dateCellStyle);
+					this.formatCell(value, dateCellStyle);
 				}
 				rowID++;
 				if (this.isMaxSpreadsheetRowsReached(rowID)) {
@@ -200,6 +200,15 @@ public class XLSEngine extends Engine {
 		} catch (Exception e) {
 			logger.error("", e);
 		} finally {
+			if (Objects.nonNull(workbook)) {
+				try {
+					logger.info("Closing workbook");
+					workbook.close();
+					logger.info("Closed workbook");
+				} catch (IOException e) {
+					logger.error("", e);
+				}
+			}
 			if (Objects.nonNull(out)) {
 				try {
 					out.close();
@@ -236,7 +245,7 @@ public class XLSEngine extends Engine {
 		}
 	}
 
-	private void formatCell(Map<Integer, String> colNames, int column, String value, CellStyle dateCellStyle) {
+	private void formatCell(String value, CellStyle dateCellStyle) {
 		Object formattedValue = this.formatInput(value);
 		if (formattedValue instanceof Calendar calendar) {
 			cell.setCellStyle(dateCellStyle);

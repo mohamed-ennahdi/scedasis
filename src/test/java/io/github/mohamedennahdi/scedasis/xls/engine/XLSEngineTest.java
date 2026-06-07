@@ -14,7 +14,6 @@ import org.apache.logging.log4j.Logger;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.CleanupMode;
 import org.junit.jupiter.api.io.TempDir;
 import org.sf.ennahdi.xlsunit.xls.ExcelComparator;
 import org.testcontainers.containers.MySQLContainer;
@@ -22,26 +21,26 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import net.sf.ennahdi.automatic.report.generator.generic.engine.Engine;
-import net.sf.ennahdi.automatic.report.generator.generic.engine.enums.StatementType;
 
 @Testcontainers
 class XLSEngineTest {
 
-	private final Logger logger = LogManager.getLogger(getClass());
+	private final static Logger logger = LogManager.getLogger(XLSEngineTest.class);
 
-	@TempDir(cleanup = CleanupMode.NEVER)
+	@TempDir//(cleanup = CleanupMode.NEVER)
 	File tempDir;
 
 	@Container
 	private static final MySQLContainer<?> mysql = new MySQLContainer<>("mysql:8.0.36").withDatabaseName("testdb")
 																					   .withUsername("testuser")
 																					   .withPassword("testpass")
-													 								   .withInitScript("db/data-ourC58bC3ig3Tc6khxGOZ.sql");
+													 								   .withInitScript("db/data-ourC58bC3ig3Tc6khxGOZ.sql")
+													 								   .withReuse(true);
 
 	@Test
 	void generateTest() throws Exception {
 		try (Connection c = DriverManager.getConnection(mysql.getJdbcUrl(),mysql.getUsername(),mysql.getPassword())) {
-			Engine engine = new XLSEngine.Builder(c, "SELECT * FROM myTable", tempDir + "/employees.xlsx").statementType(StatementType.PREPARED_STATEMENT).build();
+			Engine engine = new XLSEngine.Builder(c, "SELECT * FROM myTable", tempDir + "/employees.xlsx").build();
 			File testSubject = engine.generate();
 			logger.info("Generated file: {}", testSubject);
 

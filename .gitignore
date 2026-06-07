@@ -26,3 +26,4 @@ replay_pid*
 .project
 org.eclipse.*
 .classpath
+org.sonarlint*
