@@ -10,7 +10,7 @@ The objective of this framework is to quickly generate XLS files using SQL query
 
 Below a basic source code example:
 
-```
+```java
 Engine engine = new XLSEngine.Builder(sqlConnection, selectQuery, destinationXLSFile).build();
 File generatedXLSFile = engine.generate();
 logger.info("Generated file: {}", generatedXLSFile);
