@@ -66,7 +66,6 @@
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
-			<version>5.14.4</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -86,11 +85,27 @@
 			<artifactId>jackson-dataformat-yaml</artifactId>
 			<version>2.18.1</version>
 		</dependency>
-
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 			<version>2.18.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.noconnor</groupId>
+			<artifactId>junitperf</artifactId>
+			<version>1.37.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.github.noconnor</groupId>
+			<artifactId>junitperf-junit5</artifactId>
+			<version>1.37.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.platform</groupId>
+			<artifactId>junit-platform-engine</artifactId>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 	<repositories>
@@ -100,4 +115,15 @@
 			<url>https://repository.aspose.com/repo/</url>
 		</repository>
 	</repositories>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.junit</groupId>
+				<artifactId>junit-bom</artifactId>
+				<version>5.14.4</version> <!-- Version stable alignée -->
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 </project>
