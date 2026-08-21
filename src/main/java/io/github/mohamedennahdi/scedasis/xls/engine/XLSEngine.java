@@ -113,6 +113,15 @@ import net.sf.ennahdi.automatic.report.generator.generic.engine.exceptions.FileN
  *          <p>
  *          - Throwing FileNotGeneratedException instead of returning <b>null</b> when a problem occurs during the generation.
  *          </p>
+ *          <p>
+ *          1.0, August 2026
+ *          </p>
+ *          <p>
+ *          - Migration from sourceforge to github
+ *          </p>
+ *          <p>
+ *          - POI and JUnit version upgrade
+ *          </p>
  */
 public class XLSEngine extends Engine {
 	private static final Logger logger = LogManager.getLogger(XLSEngine.class);
